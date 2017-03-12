@@ -5,7 +5,7 @@ date: "March 11, 2017"
 output: ioslides_presentation
 ---
 
-## Data wrangling
+## A little data wrangling
 
 ```{r cars, echo = TRUE, message=F,results='hide'}
 library(data.table);library(plotly);mtcars <- data.table(mtcars)
