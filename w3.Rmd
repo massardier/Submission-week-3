@@ -1,0 +1,40 @@
+---
+title: "Plotly chart in R Markdown presentation"
+author: "Julien Massardier"
+date: "March 11, 2017"
+output: ioslides_presentation
+---
+
+## Data wrangling
+
+```{r cars, echo = TRUE, message=F,results='hide'}
+library(data.table);library(plotly);mtcars <- data.table(mtcars)
+mtcars[,std_mpg:=(mpg-mean(mpg))/sd(mpg),by=vs]
+mtcars[,std_wt:=(wt-mean(wt))/sd(wt),by=vs]
+mtcars[,std_hp:=(hp-mean(hp))/sd(hp),by=vs]
+
+p <- ggplot(data = mtcars, aes(x = std_wt, y = std_mpg)) +
+  geom_point()+  geom_smooth(aes(colour = factor(vs)),method="loess") +  
+  facet_wrap(~ vs)+labs(col="transmission", 
+  x="standardized weight",y="standardized miles per gallon")
+
+p2 <- plot_ly(mtcars, x = ~std_wt, y = ~std_mpg, 
+              z = ~std_hp, color = ~factor(am), 
+              colors = c('#BF382A', '#0C4B8E')) %>%
+  add_markers() %>%  layout(scene = list(xaxis = list(title = 'Standardized Weight'), yaxis = list(title = 'Standardized MPG'),
+zaxis = list(title = 'Standardized horsepower')))
+
+```
+
+## GGplot and Plotly
+
+```{r gglot and plotly}
+ggplotly(p)
+```
+
+
+## Plotly
+
+```{r plotly}
+p2
+```
